@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "outDir": "dist/client"
+  },
+  "extends": "./tsconfig.json",
+  "exclude": [
+    "src/server"
+  ]
+}
