@@ -38,6 +38,10 @@ const initEngine = (io: SocketIOServer) => {
     io.on('connection', (socket) => {
         loginfo("Socket connected: " + socket.id)
         console.log('info: Socket connected: ', socket.id);
+        socket.emit('message', 'Connected successfully')
+        socket.on('message', message => {
+            console.log('Client Message: ', message);
+        })
         socket.on('action', (action) => {
             if(action.type === 'server/ping'){
                 socket.emit('action', {type: 'pong'})
