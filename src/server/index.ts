@@ -2,10 +2,15 @@ import fs  from 'fs'
 import debug from 'debug'
 import {ServerType} from "../../params";
 import http, {RequestListener, Server} from 'http';
-import socketIO, {Server as SocketIOServer} from 'socket.io';
+import socketIO, {Server as SocketIOServer, Socket} from 'socket.io';
+import engine from "./socket/engine";
 
-const logerror = debug('tetris:error');
-const loginfo = debug('tetris:info');
+export interface SocketIOSocket extends Socket {
+    username: string,
+}
+
+export const logerror = debug('tetris:error');
+export const loginfo = debug('tetris:info');
 
 const initApp = (app: Server, params: ServerType, cb: () => any) => {
     const {host, port} = params;
@@ -32,18 +37,8 @@ const initApp = (app: Server, params: ServerType, cb: () => any) => {
 };
 
 const initEngine = (io: SocketIOServer) => {
-    io.on('connection', (socket) => {
-        loginfo(`Socket connected: ${socket.id}`);
-        socket.emit('message', 'Connected successfully');
-        socket.on('message', message =>
-            loginfo(`message from client: ${message}`)
-        );
-        socket.on('action', (action) => {
-            if(action.type === 'server/ping') {
-                loginfo(`action from client: message = ${action.message}`)
-                socket.emit('action', {type: 'pong'});
-            }
-        });
+    io.on('connection', (socket: SocketIOSocket) => {
+        engine(socket, io);
     });
 };
 

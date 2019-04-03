@@ -11,26 +11,26 @@ import Routes from "../Routes";
 
 const App = ({ message }: { message: string }) => {
     const socket = socketIOClient('http://0.0.0.0:3004');
+    //socket.on('disconnect', () => socket.disconnect());
     socket.on('message', (message: string) => console.log(`server message : ${message}`));
     socket.on('action', (action: string) => console.log(`server action : `, action));
     console.log('io: ', socket);
     return (
-        <Router history={history} >
+        <Router history={history}>
             <span>{message}</span>
-            <Button content="Socket" onClick={() => socket.emit('message', 'client onclick func')} />
+            <Button
+                content="Socket"
+                onClick={() => socket.emit('message', 'client onclick func')}
+            />
             <Button
                 content="Action"
                 onClick={() => socket.emit('action', {type: 'server/ping', message: 'client Action Func' } )}
             />
-            <Routes />
+            <Routes socket={socket} />
         </Router>
     )
 };
 
-const mapStateToProps = (state: any) => {
-    return {
-        message: state.message
-    }
-};
+const mapStateToProps = (state: any) => ({ message: state.message });
 
 export default connect(mapStateToProps)(App);

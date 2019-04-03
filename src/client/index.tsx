@@ -9,10 +9,11 @@ import reducer from "./reducers";
 import { alert } from './actions/alert';
 
 const initialState = {};
-
 const store = createStore(
     reducer,
     initialState,
+// @ts-ignore
+    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
 );
 
 ReactDOM.render((
