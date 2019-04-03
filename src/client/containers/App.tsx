@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 const App = ({message}: {message: string}) => {
-    console.log('test: ');
+    console.log('test: lurd');
     return (
         <span>{message}</span>
     )

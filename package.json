@@ -9,6 +9,7 @@
     "@babel/preset-react": "^7.0.0",
     "@babel/preset-typescript": "^7.3.3",
     "tsc-watch": "^2.1.2",
+    "tslint": "^5.15.0",
     "typescript": "^3.4.1",
     "webpack": "^4.29.6",
     "webpack-cli": "^3.3.0",
@@ -16,7 +17,7 @@
   },
   "scripts": {
     "srv:dev": "tsc-watch --build tsconfig.server.json --onSuccess \"node ./dist/src/server/server.js\"",
-    "client:dev": "webpack-dev-server --colors --hot --inline --host 0.0.0.0 --port 8080",
+    "client:dev": "webpack-dev-server --watch --colors --hot --inline --host 0.0.0.0 --port 8080",
     "client:prod": "webpack --mode production"
   },
   "dependencies": {
@@ -28,6 +29,7 @@
     "@types/react": "^16.8.10",
     "@types/react-dom": "^16.8.3",
     "@types/react-redux": "^7.0.6",
+    "@types/socket.io": "^2.1.2",
     "babel-loader": "^8.0.5",
     "compression": "^1.7.4",
     "cors": "^2.8.5",
@@ -36,6 +38,7 @@
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-redux": "^6.0.1",
-    "redux": "^4.0.1"
+    "redux": "^4.0.1",
+    "socket.io": "^2.2.0"
   }
 }
