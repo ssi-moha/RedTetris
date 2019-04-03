@@ -40,6 +40,7 @@ const initEngine = (io: SocketIOServer) => {
         );
         socket.on('action', (action) => {
             if(action.type === 'server/ping') {
+                loginfo(`action from client: message = ${action.message}`)
                 socket.emit('action', {type: 'pong'});
             }
         });

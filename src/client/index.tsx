@@ -1,9 +1,11 @@
 import * as React from "react";
 import ReactDOM from 'react-dom';
-import App from './containers/App';
+
 import { createStore } from 'redux';
-import reducer from "./reducers";
 import { Provider } from "react-redux";
+
+import App from './containers/App';
+import reducer from "./reducers";
 import { alert } from './actions/alert';
 
 const initialState = {};
