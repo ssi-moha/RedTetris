@@ -16,6 +16,8 @@
     "webpack-dev-server": "^3.2.1"
   },
   "scripts": {
+    "tslint:client": "tslint --project tsconfig.json -c tslint.json",
+    "tslint:server": "tslint --project tsconfig.server.json -c tslint.json 'src/server/**/*.ts'",
     "srv:dev": "DEBUG=tetris:* tsc-watch --build tsconfig.server.json --onSuccess \"node ./dist/src/server/server.js\"",
     "client:dev": "webpack-dev-server --watch --colors --hot --inline --host 0.0.0.0 --port 8080",
     "client:prod": "webpack --mode production"

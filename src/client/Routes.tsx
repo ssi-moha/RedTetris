@@ -1,12 +1,14 @@
-import React, { Fragment } from 'react'
-import {RouterProps, Switch, Route, RouteComponentProps} from "react-router";
+import React from "react";
+
+import { Route, RouteComponentProps, Switch} from "react-router";
+
 import Login from "./components/Login";
 
-interface RoutesProps {
+interface IRoutesProps {
     socket: SocketIOClient.Socket,
 }
 
-const Routes = (props: RoutesProps) => {
+const Routes = (props: IRoutesProps) => {
   return (
       <Switch>
           <Route

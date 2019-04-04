@@ -1,3 +1,4 @@
-import params  from '../../params'
-import server from './index'
-server.create(params.server).then( () => console.log('not yet ready to play tetris with U ...') )
+import params from "../../params";
+import server from "./index";
+
+server.create(params.server).then( () => console.log("not yet ready to play tetris with U ...") );

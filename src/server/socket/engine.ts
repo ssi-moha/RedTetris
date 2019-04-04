@@ -1,33 +1,31 @@
+import { find, forEach, includes, map } from "lodash";
 import {Namespace, Server, Socket} from "socket.io";
-import {loginfo, SocketIOSocket} from "../index";
-import util from 'util';
-import { find, includes, forEach, map } from "lodash";
+import {loginfo} from "../debug/debug";
+import { ISocketIOSocket } from "../index";
 
 const findSocketSessionVariable = (sockets: any, attributeToFind: string): any[] =>
-    map(sockets, elem => elem[attributeToFind])
+    map(sockets, (elem) => elem[attributeToFind])
 
-const engine = (socket: SocketIOSocket, ioEngine: Server) => {
+const engine = (socket: ISocketIOSocket, ioEngine: Server) => {
     loginfo(`Socket connected: ${socket.id}`);
-    socket.emit('message', 'Connected successfully');
+    socket.emit("message", "Connected successfully");
 
-    socket.on('message', message => loginfo(`message from client: ${message}`));
+    socket.on("message", (message) => loginfo(`message from client: ${message}`));
 
-    socket.on('userInputName', input => {
+    socket.on("userInputName", (input) => {
         loginfo(`username from client: ${input.username}`)
-        loginfo('username: '
-            + findSocketSessionVariable(ioEngine.sockets.sockets, 'username').includes(input.username))
+        loginfo("username: "
+            + findSocketSessionVariable(ioEngine.sockets.sockets, "username").includes(input.username))
         socket.username = input.username;
         // @ts-ignore
-        loginfo('username: '
-            + findSocketSessionVariable(ioEngine.sockets.sockets, 'username').includes(input.username))
-
-
+        loginfo("username: "
+            + findSocketSessionVariable(ioEngine.sockets.sockets, "username").includes(input.username))
     });
-    socket.on('action', (action) => {
-        if(action.type === 'server/ping') {
+    socket.on("action", (action) => {
+        if (action.type === "server/ping") {
             loginfo(`action from client: message = ${action.message}`)
 
-            socket.emit('action', {type: 'pong'});
+            socket.emit("action", { type: "pong" });
         }
     });
 }

@@ -1,12 +1,12 @@
 import * as React from "react";
-import ReactDOM from 'react-dom';
+import ReactDOM from "react-dom";
 
-import { createStore } from 'redux';
 import { Provider } from "react-redux";
+import { createStore } from "redux";
 
-import App from './containers/App';
+import { alert } from "./actions/alert";
+import App from "./containers/App";
 import reducer from "./reducers";
-import { alert } from './actions/alert';
 
 const initialState = {};
 const store = createStore(
@@ -20,6 +20,6 @@ ReactDOM.render((
     <Provider store={store}>
         <App />
     </Provider>
-), document.getElementById('tetris'));
+), document.getElementById("tetris"));
 
-store.dispatch(alert('Soon, will be here a fantastic Tetris ...'))
+store.dispatch(alert("Soon, will be here a fantastic Tetris ..."))
