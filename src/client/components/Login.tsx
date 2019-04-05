@@ -4,34 +4,64 @@ import { connect } from "react-redux";
 
 import {RouteComponentProps} from "react-router";
 import { Dispatch } from "redux";
+
+import { LOGIN_ATTEMPT } from "../../sockets/events";
 import { errorMessage } from "../actions/errorMessage";
 import TextField from "../lib/Field/TextField";
 import RoomingFormContainer, {RoomingFormItem} from "../lib/RoomingForm/RoomingFormContainer";
+import {emitSocket, socketEventListener} from "../sockets/action";
+import {
+    ILoginProps,
+    ISocketMethodArgs,
+    ISocketOnMethodArgs,
+    ISocketOnMethodCb,
+    IUserData,
+    IUserInfo,
+    IValues,
+} from "../types/Login";
+import {user} from "../actions/user";
+import {fromJS} from "immutable";
 
-interface ILoginProps {
-    dispatch: Dispatch;
-    socket: SocketIOClient.Socket;
-}
+const items: RoomingFormItem[] = [
+    {
+        // @ts-ignore
+        component: TextField,
+        label: "Name",
+        name: "name",
+    },
+    {
+        // @ts-ignore
+        component: TextField,
+        label: "Room",
+        name: "room",
+    },
 
-interface IValues { name: string; }
-
-const items: RoomingFormItem[] = [{
-// @ts-ignore
-    component: TextField,
-    label: "name",
-    name: "name",
-}];
+];
 
 const onSubmit = (values: IValues, dispatch: Dispatch, socket: SocketIOClient.Socket) => {
     if (values.name.match(/^[a-zA-Z0-9_.-]*$/g) === null) {
         dispatch(errorMessage("Only numbers, letters, _, ., -, are allowed"));
         return ;
     }
-    socket.emit("userInputName",  { type: "username", username: values.name });
+    const userInfo = { username: values.name, room: values.room || `${values.name}Room` };
+    emitSocket<IUserInfo>({ socket, ioEvent: "userInputName", data: userInfo });
 };
 
+const loginAttemptEventCb: ISocketOnMethodCb<IUserData> = (data, dispatch) => {
+    console.log('data: ', data);
+    console.log('dispatch: ', dispatch);
+    dispatch(user(data.user));
+}
+
 const Login = (props: ILoginProps & RouteComponentProps) => {
-    console.log("props: ", props);
+    const listenerArgs: ISocketOnMethodArgs<IUserData> = {
+        cb: (data) => loginAttemptEventCb(data, props.dispatch),
+        ioEvent: LOGIN_ATTEMPT,
+        socket: props.socket,
+    };
+
+    socketEventListener<IUserData>(listenerArgs);
+
     return (
       <RoomingFormContainer
           title="Login"

@@ -3,7 +3,7 @@ import http, {RequestListener, Server} from "http";
 import socketIO, {Server as SocketIOServer, Socket} from "socket.io";
 import {ServerType} from "../../params";
 import {logerror, loginfo} from "./debug/debug";
-import engine from "./socket/engine";
+import engine from "./engine/engine";
 
 export interface ISocketIOSocket extends Socket {
     username: string,

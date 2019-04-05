@@ -1,12 +1,12 @@
-import { ERROR_MESSAGE } from '../actions/errorMessage'
+import { ERROR_MESSAGE } from "../actions/errorMessage"
 
-interface ErrorMessageAction {
+interface IErrorMessageAction {
     type: string,
     errMessage?: string,
 }
 
-const errorMessage = (state = {} , action: ErrorMessageAction) => {
-    switch(action.type) {
+const errorMessage = (state = {} , action: IErrorMessageAction) => {
+    switch (action.type) {
         case ERROR_MESSAGE:
             return { errMessage: action.errMessage };
         default:
