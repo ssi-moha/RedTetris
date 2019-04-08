@@ -1,10 +1,12 @@
 import React, {Fragment, useState} from "react"
-import {Button, Container, Menu, Sidebar} from "semantic-ui-react";
-import Icon from "semantic-ui-react/dist/commonjs/elements/Icon/Icon";
-import Header from "../components/Header";
-import {sidebarVisibility} from "../actions/sidebarVisibility";
+
 import {Dispatch} from "redux";
+import {Button, Container, Menu, Sidebar} from "semantic-ui-react";
 import {connect} from "react-redux";
+
+import Icon from "semantic-ui-react/dist/commonjs/elements/Icon/Icon";
+import {sidebarVisibility} from "../actions/sidebarVisibility";
+import Header from "../components/Header";
 import {State} from "../types/State";
 
 const VerticalSidebar = ({ visibility }: { visibility: boolean}) => {
