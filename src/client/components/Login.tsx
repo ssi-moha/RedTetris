@@ -5,8 +5,10 @@ import { connect } from "react-redux";
 import {RouteComponentProps} from "react-router";
 import { Dispatch } from "redux";
 
+import {fromJS} from "immutable";
 import { LOGIN_ATTEMPT } from "../../sockets/events";
 import { errorMessage } from "../actions/errorMessage";
+import {user} from "../actions/user";
 import TextField from "../lib/Field/TextField";
 import RoomingFormContainer, {RoomingFormItem} from "../lib/RoomingForm/RoomingFormContainer";
 import {emitSocket, socketEventListener} from "../sockets/action";
@@ -19,8 +21,6 @@ import {
     IUserInfo,
     IValues,
 } from "../types/Login";
-import {user} from "../actions/user";
-import {fromJS} from "immutable";
 
 const items: RoomingFormItem[] = [
     {
@@ -48,8 +48,8 @@ const onSubmit = (values: IValues, dispatch: Dispatch, socket: SocketIOClient.So
 };
 
 const loginAttemptEventCb: ISocketOnMethodCb<IUserData> = (data, dispatch) => {
-    console.log('data: ', data);
-    console.log('dispatch: ', dispatch);
+    console.log("data: ", data);
+    console.log("dispatch: ", dispatch);
     dispatch(user(data.user));
 }
 

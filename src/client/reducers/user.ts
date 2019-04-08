@@ -5,7 +5,7 @@ interface IUserLogging {
     user: {},
 }
 
-const user = (state = null, action: IUserLogging) => {
+const user = (state: {} | null = null, action: IUserLogging) => {
     switch (action.type) {
         case USER_LOGIN:
             return { ...action.user };

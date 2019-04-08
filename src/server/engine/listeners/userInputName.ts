@@ -1,10 +1,10 @@
 import { map } from "lodash";
 import { Server } from "socket.io";
 
+import { LOGIN_ATTEMPT } from "../../../sockets/events";
 import { loginfo } from "../../debug/debug";
 import { ISocketIOSocket } from "../../index";
 import { IUserInputNameArgs } from "./ListenerArgsTypes";
-import {LOGIN_ATTEMPT} from "../../../sockets/events";
 
 const findSocketSessionVariables = (sockets: {}, attributeToFind: string): any[] =>
     map(sockets, (elem) => elem[attributeToFind]);

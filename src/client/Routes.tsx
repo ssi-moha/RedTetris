@@ -1,20 +1,31 @@
-import React from "react";
+import React, {useState} from "react";
 
 import { Route, RouteComponentProps, Switch} from "react-router";
 
 import Login from "./components/Login";
+import Dashboard from "./containers/Dashboard";
+import history from "./lib/history";
+import {IUser} from "./types/State";
 
 interface IRoutesProps {
     socket: SocketIOClient.Socket,
+    user: IUser,
 }
 
+const isLogged = (user: IUser) => user && history.push(`#${user.room}[${user.username}]`);
+
 const Routes = (props: IRoutesProps) => {
-  return (
+
+    isLogged(props.user);
+    const componentToRender = (routeProps: RouteComponentProps) => !props.user ?
+        <Dashboard socket={props.socket} {...routeProps} /> : <Login socket={props.socket} {...routeProps}/>;
+
+    return (
       <Switch>
           <Route
               exact
               path="/"
-              component={(routeProps: RouteComponentProps) => <Login socket={props.socket} {...routeProps}/>}
+              component={componentToRender}
           />
       </Switch>
   );
