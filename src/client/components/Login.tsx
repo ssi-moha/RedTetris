@@ -4,7 +4,9 @@ import { connect } from "react-redux";
 
 import {RouteComponentProps} from "react-router";
 import { Dispatch } from "redux";
+import parse from "url-parse";
 
+import {Hash, Location} from "history";
 import {fromJS} from "immutable";
 import { LOGIN_ATTEMPT } from "../../sockets/events";
 import { errorMessage } from "../actions/errorMessage";
@@ -38,7 +40,7 @@ const items: RoomingFormItem[] = [
 
 ];
 
-const onSubmit = (values: IValues, dispatch: Dispatch, socket: SocketIOClient.Socket) => {
+const connectUser = (values: IValues, dispatch: Dispatch, socket: SocketIOClient.Socket) => {
     if (values.name.match(/^[a-zA-Z0-9_.-]*$/g) === null) {
         dispatch(errorMessage("Only numbers, letters, _, ., -, are allowed"));
         return ;
@@ -47,13 +49,18 @@ const onSubmit = (values: IValues, dispatch: Dispatch, socket: SocketIOClient.So
     emitSocket<IUserInfo>({ socket, ioEvent: "userInputName", data: userInfo });
 };
 
-const loginAttemptEventCb: ISocketOnMethodCb<IUserData> = (data, dispatch) => {
-    console.log("data: ", data);
-    console.log("dispatch: ", dispatch);
-    dispatch(user(data.user));
-}
+const getUserInfoFromUrl = (hash: Hash) => hash.match(/#([^[]+)\[([^\]]+)\]/);
+
+const loginAttemptEventCb: ISocketOnMethodCb<IUserData> = (data, dispatch) => dispatch(user(data.user));
 
 const Login = (props: ILoginProps & RouteComponentProps) => {
+    console.log("props: ", props);
+
+    if (props.location && props.location.hash) {
+        const [_, room, name] = getUserInfoFromUrl(props.location.hash);
+        connectUser({ name, room }, props.dispatch, props.socket)
+    }
+
     const listenerArgs: ISocketOnMethodArgs<IUserData> = {
         cb: (data) => loginAttemptEventCb(data, props.dispatch),
         ioEvent: LOGIN_ATTEMPT,
@@ -67,7 +74,7 @@ const Login = (props: ILoginProps & RouteComponentProps) => {
           title="Login"
           items={items}
           validateButton="Play !"
-          onSubmit={(values) => onSubmit(values, props.dispatch, props.socket)}
+          onSubmit={(values) => connectUser(values, props.dispatch, props.socket)}
       />
     );
 };

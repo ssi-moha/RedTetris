@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React from "react";
 
 import { Route, RouteComponentProps, Switch} from "react-router";
 
@@ -17,13 +17,12 @@ const isLogged = (user: IUser) => user && history.push(`#${user.room}[${user.use
 const Routes = (props: IRoutesProps) => {
 
     isLogged(props.user);
-    const componentToRender = (routeProps: RouteComponentProps) => !props.user ?
+    const componentToRender = (routeProps: RouteComponentProps) => props.user ?
         <Dashboard socket={props.socket} {...routeProps} /> : <Login socket={props.socket} {...routeProps}/>;
 
     return (
       <Switch>
           <Route
-              exact
               path="/"
               component={componentToRender}
           />

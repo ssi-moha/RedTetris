@@ -1,11 +1,10 @@
 import React, {Fragment, useState} from "react"
 
-import {Dispatch} from "redux";
-import {Button, Container, Menu, Sidebar} from "semantic-ui-react";
 import {connect} from "react-redux";
+import {Dispatch} from "redux";
+import {Button, Container, Grid, Menu, Sidebar} from "semantic-ui-react";
 
 import Icon from "semantic-ui-react/dist/commonjs/elements/Icon/Icon";
-import {sidebarVisibility} from "../actions/sidebarVisibility";
 import Header from "../components/Header";
 import {State} from "../types/State";
 
@@ -39,27 +38,58 @@ const VerticalSidebar = ({ visibility }: { visibility: boolean}) => {
 const divTriggerSidebarStyle: React.CSSProperties = {
     float: "left",
     height: "100%",
-    width: "5%",
+    width: "10%",
 };
 
 const fullHeight = { height: "100%" };
 
-const handleSidebarVisibility = (dispatch: Dispatch, visibility: boolean) => dispatch(sidebarVisibility(!visibility))
+const game = [
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+]
 
 const Dashboard = (props) => {
+    const [sidebarVisibility, handleSidebarVisibility] = useState(false);
     return (
         <Container style={fullHeight} fluid>
             <Header/>
             <div
-                onMouseEnter={() => handleSidebarVisibility(props.dispatch, props.sidebarVisibility)}
-                onMouseLeave={() => handleSidebarVisibility(props.dispatch, props.sidebarVisibility)}
+                onMouseEnter={() => handleSidebarVisibility(true)}
+                onMouseLeave={() => handleSidebarVisibility(false)}
                 style={divTriggerSidebarStyle}
             />
-            <VerticalSidebar visibility={props.sidebarVisibility} />
+            <VerticalSidebar visibility={sidebarVisibility} />
+            <Grid textAlign="center" celled container stackable columns={10} >
+                {game.map((row, index) => {
+                    return (
+                        <Grid.Row key={index}>
+                            {
+                                row.map((cell, cellIndex) => <Grid.Column key={cellIndex}>O</Grid.Column>)
+                            }
+                        </Grid.Row>
+                    )
+                })}
+            </Grid>
         </Container>
     );
 };
 
-const mapStateToProps = (state: State) => ({ sidebarVisibility: state.sidebarVisibility });
-
-export default connect(mapStateToProps)(Dashboard);
+export default Dashboard;

@@ -12,7 +12,6 @@ import {State} from "../types/State";
 const socket = socketIOClient("http://0.0.0.0:3004");
 
 const App = (props: any) => {
-
     socket.on("message", (socketMessage: string) => console.log(`server message : ${socketMessage}`));
     return (
         <Fragment>
