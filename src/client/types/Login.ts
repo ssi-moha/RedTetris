@@ -26,7 +26,7 @@ export interface ISocketMethodArgs {
 };
 
 export interface ISocketEmitMethodArgs<DataType> extends ISocketMethodArgs {
-    data: DataType,
+    data?: DataType,
 }
 
 export type ISocketOnMethodCb<DataType> = (data: DataType, _?: any) => any;

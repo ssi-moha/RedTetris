@@ -57,6 +57,7 @@ const Login = (props: ILoginProps & RouteComponentProps) => {
     console.log("props: ", props);
 
     if (props.location && props.location.hash) {
+        // @ts-ignore
         const [_, room, name] = getUserInfoFromUrl(props.location.hash);
         connectUser({ name, room }, props.dispatch, props.socket)
     }

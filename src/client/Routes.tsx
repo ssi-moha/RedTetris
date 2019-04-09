@@ -3,7 +3,7 @@ import React from "react";
 import { Route, RouteComponentProps, Switch} from "react-router";
 
 import Login from "./components/Login";
-import Dashboard from "./containers/Dashboard";
+import DashboardContainer from "./containers/DashboardContainer";
 import history from "./lib/history";
 import {IUser} from "./types/State";
 
@@ -18,7 +18,7 @@ const Routes = (props: IRoutesProps) => {
 
     isLogged(props.user);
     const componentToRender = (routeProps: RouteComponentProps) => props.user ?
-        <Dashboard socket={props.socket} {...routeProps} /> : <Login socket={props.socket} {...routeProps}/>;
+        <DashboardContainer socket={props.socket} {...routeProps} /> : <Login socket={props.socket} {...routeProps}/>;
 
     return (
       <Switch>

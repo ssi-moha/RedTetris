@@ -1,7 +1,7 @@
 import { map } from "lodash";
 import { Server } from "socket.io";
 
-import { LOGIN_ATTEMPT } from "../../../sockets/events";
+import {LOGIN_ATTEMPT, ROOM_LIST} from "../../../sockets/events";
 import { loginfo } from "../../debug/debug";
 import { ISocketIOSocket } from "../../index";
 import { IUserInputNameArgs } from "./ListenerArgsTypes";
@@ -27,6 +27,7 @@ const userInputNameListener = (input: IUserInputNameArgs, socket: ISocketIOSocke
         socket.join(room);
         loginfo(`username ${input.username} successfully joined ${room}`)
         socket.emit(LOGIN_ATTEMPT, infoToEmit);
+        socket.emit(ROOM_LIST, {rooms: ioEngine.sockets.adapter.rooms})
     }
 }
 

@@ -8,4 +8,8 @@ export interface IMessage {
     message: string,
 }
 
-export type State = { user: IUser } & IMessage;
+export interface IRooms {
+    rooms: string[],
+}
+
+export type State = { user: IUser } & IMessage & IRooms;
