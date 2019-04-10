@@ -25,9 +25,9 @@ const userInputNameListener = (input: IUserInputNameArgs, socket: ISocketIOSocke
         };
         socket.username = input.username;
         socket.join(room);
-        loginfo(`username ${input.username} successfully joined ${room}`)
         socket.emit(LOGIN_ATTEMPT, infoToEmit);
         ioEngine.emit(ROOM_LIST, {rooms: ioEngine.sockets.adapter.rooms})
+        loginfo(`username ${input.username} successfully joined ${room}`)
     }
 }
 

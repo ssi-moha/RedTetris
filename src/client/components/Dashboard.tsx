@@ -7,6 +7,9 @@ import {State} from "../types/State";
 import VerticalSidebar from "./VerticalSidebar";
 import RoomingFormContainer, {RoomingFormItem} from "../lib/RoomingForm/RoomingFormContainer";
 import TextField from "../lib/Field/TextField";
+import {emitSocket} from "../sockets/action";
+import {CREATE_ROOM} from "../../sockets/events";
+import {Dispatch} from "redux";
 
 const divTriggerSidebarStyle: React.CSSProperties = {
     float: "left",
@@ -44,7 +47,9 @@ interface IDashboardProps {
     sidebarVisibility: boolean,
     handleOpenCreateRoomDialog: React.Dispatch<React.SetStateAction<boolean>>,
     openCreateRoomDialog: boolean,
+    dispatch: Dispatch,
     rooms: string[],
+    socket: SocketIOClient.Socket,
 }
 
 const formItems: RoomingFormItem[] = [{
@@ -53,6 +58,10 @@ const formItems: RoomingFormItem[] = [{
     label: "newRoom",
     name: "room",
 }]
+
+const onSubmit = (values: { room: string }, socket: SocketIOClient.Socket, dispatch: Dispatch) => {
+    emitSocket<{ room: string }>({ socket, ioEvent: CREATE_ROOM, data: { room: values.room }})
+}
 
 const Dashboard = (props: IDashboardProps) => {
     return (
@@ -84,7 +93,7 @@ const Dashboard = (props: IDashboardProps) => {
                 <Modal.Header>Create a room</Modal.Header>
                 <Modal.Content>
                 <RoomingFormContainer
-                    onSubmit={console.log}
+                    onSubmit={(values) => onSubmit(values, props.socket, props.dispatch)}
                     items={formItems}
                     validateButton="Create"
                     cancelButton="Cancel"
@@ -95,6 +104,5 @@ const Dashboard = (props: IDashboardProps) => {
         </Container>
     );
 };
-
 
 export default Dashboard;

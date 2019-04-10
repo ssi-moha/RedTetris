@@ -23,10 +23,7 @@ const handleRoomsObject = (rooms: SocketIO.Rooms, dispatch: Dispatch) => {
     const roomList: string[] = [];
     forEach(rooms.rooms, (room, index) => {
         first++;
-        if (first % 2 === 0)
-        {
-            roomList.push(index);
-        }
+        roomList.push(index);
     });
     dispatchRoomList(roomList, dispatch);
     return roomList;
@@ -46,6 +43,8 @@ const DashboardContainer = (props: IDashboardContainerProps & {rooms: State["roo
             handleSidebarVisibility={handleSidebarVisibility}
             openCreateRoomDialog={openCreateRoomDialog}
             handleOpenCreateRoomDialog={handleOpenCreateRoomDialog}
+            dispatch={props.dispatch}
+            socket={props.socket}
             rooms={props.rooms}
         />
    );

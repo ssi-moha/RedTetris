@@ -3,7 +3,7 @@ import {Field, Formik} from "formik";
 import {Button, Form, Grid, Header} from "semantic-ui-react";
 import {RoomingFormProps} from "./RoomingFormContainer";
 
-const defaultFieldStyle = { width:"100%" };
+const defaultFieldStyle = { width: "100%" };
 
 const noPaddingStyle = { padding: "0"};
 
@@ -25,15 +25,19 @@ const RoomingForm = (props: RoomingFormProps) => {
                                         <Field
                                             name={item.name}
                                             component={item.component}
-                                            style={{...item.style,...defaultFieldStyle}}
+                                            style={{...item.style, ...defaultFieldStyle}}
                                             setFieldValue={formikProps.setFieldValue}
                                         />
                                     </Grid.Column>
-                                </Grid.Row>
+                                </Grid.Row>,
                             )}
                             <Button content={props.validateButton || "Confirm"} type="submit" />
                             {props.cancelButton &&
-                            <Button onClick={props.cancelFunction} content={props.cancelButton} negative type="submit" />
+                            <Button
+                                onClick={props.cancelFunction}
+                                content={props.cancelButton}
+                                negative
+                            />
                             }
                         </Grid>
                     </Form>
