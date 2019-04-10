@@ -17,8 +17,10 @@ const isLogged = (user: IUser) => user && history.push(`#${user.room}[${user.use
 const Routes = (props: IRoutesProps) => {
 
     isLogged(props.user);
-    const componentToRender = (routeProps: RouteComponentProps) => props.user ?
-        <DashboardContainer socket={props.socket} {...routeProps} /> : <Login socket={props.socket} {...routeProps}/>;
+    const componentToRender = (routeProps: RouteComponentProps) =>
+        props.user ?
+        <DashboardContainer socket={props.socket} {...routeProps} /> :
+        <Login socket={props.socket} {...routeProps}/>;
 
     return (
       <Switch>

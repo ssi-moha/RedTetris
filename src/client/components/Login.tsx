@@ -4,13 +4,11 @@ import { connect } from "react-redux";
 
 import {RouteComponentProps} from "react-router";
 import { Dispatch } from "redux";
-import parse from "url-parse";
 
-import {Hash, Location} from "history";
-import {fromJS} from "immutable";
+import { Hash } from "history";
 import { LOGIN_ATTEMPT } from "../../sockets/events";
 import { errorMessage } from "../actions/errorMessage";
-import {user} from "../actions/user";
+import { user } from "../actions/user";
 import TextField from "../lib/Field/TextField";
 import RoomingFormContainer, {RoomingFormItem} from "../lib/RoomingForm/RoomingFormContainer";
 import {emitSocket, socketEventListener} from "../sockets/action";

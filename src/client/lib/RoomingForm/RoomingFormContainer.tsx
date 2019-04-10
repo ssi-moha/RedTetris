@@ -9,12 +9,13 @@ export interface RoomingFormItem {
 }
 
 export interface RoomingFormProps {
-    title: string,
+    title?: string,
     containerStyle?: React.CSSProperties,
     onSubmit: (values: any) => any,
     items: RoomingFormItem[],
     validateButton: string,
     cancelButton?: string,
+    cancelFunction?: (_?: any) => any,
 }
 
 
@@ -27,6 +28,7 @@ const RoomingFormContainer = (props: RoomingFormProps) => {
           items={props.items}
           validateButton={props.validateButton}
           cancelButton={props.cancelButton}
+          cancelFunction={props.cancelFunction}
       />
   );
 };

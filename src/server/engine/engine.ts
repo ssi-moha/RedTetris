@@ -10,7 +10,7 @@ const engine = (socket: ISocketIOSocket, ioEngine: Server) => {
     socket.emit("message", "Connected successfully");
 
     socket.on("userInputName", (input) => userInputNameListener(input, socket, ioEngine));
-    socket.broadcast.emit(ROOM_LIST, {rooms: ioEngine.sockets.adapter.rooms})
+
 };
 
 export default engine;

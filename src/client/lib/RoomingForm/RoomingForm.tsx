@@ -12,12 +12,12 @@ const RoomingForm = (props: RoomingFormProps) => {
             <Formik
                 initialValues={{}}
                 onSubmit={props.onSubmit}
-                render={formikProps => (
+                render={(formikProps) => (
                     <Form onSubmit={formikProps.handleSubmit}>
                         <Grid container padded="vertically" >
-                            <Grid.Row>
+                            {props.title && <Grid.Row>
                                 <Header as="h3" content={props.title} />
-                            </Grid.Row>
+                            </Grid.Row>}
                             {props.items.map((item, index) =>
                                 <Grid.Row key={index}>
                                     <Grid.Column style={noPaddingStyle}>
@@ -33,7 +33,7 @@ const RoomingForm = (props: RoomingFormProps) => {
                             )}
                             <Button content={props.validateButton || "Confirm"} type="submit" />
                             {props.cancelButton &&
-                                <Button content={props.cancelButton} negative type="submit" />
+                            <Button onClick={props.cancelFunction} content={props.cancelButton} negative type="submit" />
                             }
                         </Grid>
                     </Form>

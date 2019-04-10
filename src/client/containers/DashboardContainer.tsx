@@ -1,16 +1,15 @@
 import React, {useState} from "react"
 
-import Dashboard from "../components/Dashboard";
-import {emitSocket, socketEventListener} from "../sockets/action";
-import {Dispatch} from "redux";
-import {RouteComponentProps} from "react-router";
-import {GET_ROOMS, ROOM_LIST} from "../../sockets/events";
-import * as SocketIO from "socket.io";
-import {map, forEach} from "lodash";
-import {rooms as roomsAction} from "../actions/rooms";
+import { forEach } from "lodash";
 import {connect} from "react-redux";
+import {RouteComponentProps} from "react-router";
+import {Dispatch} from "redux";
+import * as SocketIO from "socket.io";
+import { ROOM_LIST } from "../../sockets/events";
+import {rooms as roomsAction} from "../actions/rooms";
+import Dashboard from "../components/Dashboard";
+import { socketEventListener } from "../sockets/action";
 import {State} from "../types/State";
-import {fromJS} from "immutable";
 
 interface IDashboardContainerProps extends RouteComponentProps {
     dispatch: Dispatch;
@@ -28,20 +27,30 @@ const handleRoomsObject = (rooms: SocketIO.Rooms, dispatch: Dispatch) => {
         {
             roomList.push(index);
         }
-    })
+    });
     dispatchRoomList(roomList, dispatch);
     return roomList;
 }
 
-const DashboardContainer = (props: IDashboardContainerProps) => {
+const DashboardContainer = (props: IDashboardContainerProps & {rooms: State["rooms"]}) => {
     const [sidebarVisibility, handleSidebarVisibility] = useState(false);
-    console.log("props: ", props);
-    socketEventListener<SocketIO.Rooms>({ socket: props.socket, ioEvent: ROOM_LIST, cb: (data) => handleRoomsObject(data, props.dispatch)})
+    const [openCreateRoomDialog, handleOpenCreateRoomDialog] = useState(false);
+    socketEventListener<SocketIO.Rooms>({
+        cb: (data) => handleRoomsObject(data, props.dispatch),
+        ioEvent: ROOM_LIST,
+        socket: props.socket,
+    });
     return (
-        <Dashboard sidebarVisibility={sidebarVisibility} handleSidebarVisibility={handleSidebarVisibility}/>
-    );
+        <Dashboard
+            sidebarVisibility={sidebarVisibility}
+            handleSidebarVisibility={handleSidebarVisibility}
+            openCreateRoomDialog={openCreateRoomDialog}
+            handleOpenCreateRoomDialog={handleOpenCreateRoomDialog}
+            rooms={props.rooms}
+        />
+   );
 };
 
 const mapStateToProps = (state: State) => ({ rooms: state.rooms })
 
-export default connect()(DashboardContainer);
+export default connect(mapStateToProps)(DashboardContainer);
