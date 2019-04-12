@@ -14,10 +14,6 @@ import RoomingFormContainer, {RoomingFormItem} from "../lib/RoomingForm/RoomingF
 import {emitSocket, socketEventListener} from "../sockets/action";
 import {
     ILoginProps,
-    ISocketMethodArgs,
-    ISocketOnMethodArgs,
-    ISocketOnMethodCb,
-    IUserData,
     IUserInfo,
     IValues,
 } from "../types/Login";
@@ -49,8 +45,6 @@ const connectUser = (values: IValues, dispatch: Dispatch, socket: SocketIOClient
 
 const getUserInfoFromUrl = (hash: Hash) => hash.match(/#([^[]+)\[([^\]]+)\]/);
 
-const loginAttemptEventCb: ISocketOnMethodCb<IUserData> = (data, dispatch) => dispatch(user(data.user));
-
 const Login = (props: ILoginProps & RouteComponentProps) => {
     console.log("props: ", props);
 
@@ -59,14 +53,6 @@ const Login = (props: ILoginProps & RouteComponentProps) => {
         const [_, room, name] = getUserInfoFromUrl(props.location.hash);
         connectUser({ name, room }, props.dispatch, props.socket)
     }
-
-    const listenerArgs: ISocketOnMethodArgs<IUserData> = {
-        cb: (data) => loginAttemptEventCb(data, props.dispatch),
-        ioEvent: LOGIN_ATTEMPT,
-        socket: props.socket,
-    };
-
-    socketEventListener<IUserData>(listenerArgs);
 
     return (
       <RoomingFormContainer

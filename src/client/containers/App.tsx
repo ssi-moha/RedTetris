@@ -9,15 +9,12 @@ import history from "../lib/history";
 import Routes from "../Routes";
 import {State} from "../types/State";
 
-const socket = socketIOClient("http://0.0.0.0:3004");
-
 const App = (props: any) => {
-    socket.on("message", (socketMessage: string) => console.log(`server message : ${socketMessage}`));
     return (
         <Fragment>
             <span>{props.message}</span>
             <Router history={history}>
-                <Routes socket={socket} user={props.user} />
+                <Routes socket={props.socket} user={props.user} />
             </Router>
         </Fragment>
     );

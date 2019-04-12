@@ -34,6 +34,7 @@ const RoomingForm = (props: RoomingFormProps) => {
                             <Button content={props.validateButton || "Confirm"} type="submit" />
                             {props.cancelButton &&
                             <Button
+                                type="button"
                                 onClick={props.cancelFunction}
                                 content={props.cancelButton}
                                 negative

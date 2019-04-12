@@ -50,6 +50,7 @@ interface IDashboardProps {
     dispatch: Dispatch,
     rooms: string[],
     socket: SocketIOClient.Socket,
+    joinRoom: (room: string) => void,
 }
 
 const formItems: RoomingFormItem[] = [{
@@ -76,6 +77,7 @@ const Dashboard = (props: IDashboardProps) => {
                 handleOpenCreateRoomDialog={props.handleOpenCreateRoomDialog}
                 openCreateRoomDialog={props.openCreateRoomDialog}
                 rooms={props.rooms}
+                joinRoom={props.joinRoom}
                 visibility
             />
             <Grid textAlign="center" celled container stackable columns={10} >
