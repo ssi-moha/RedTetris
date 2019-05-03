@@ -4,7 +4,11 @@ import {loginfo} from "../../debug/debug";
 import { ROOM_LIST, USER_JOINED_ROOM } from "../../../sockets/events";
 import { find } from "lodash";
 
-const joinRoom = (input: { room: string }, socket: ISocketIOSocket, ioEngine: Server) => {
+interface IJoinRoomArgs {
+    room: string,
+}
+
+const joinRoom = (input: IJoinRoomArgs, socket: ISocketIOSocket, ioEngine: Server) => {
     loginfo(find(ioEngine.sockets.adapter.rooms, (value, room) => room === input.room));
     socket.join(input.room);
     socket.emit(USER_JOINED_ROOM, {room: input.room});

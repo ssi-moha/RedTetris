@@ -16,19 +16,12 @@ interface IStoreAttributes {
 
 const loginAttemptEventCb: ISocketOnMethodCb<IUserData> = (data, dispatch) => dispatch(user(data.user));
 
-const handleRoomsObject = (rooms: SocketIO.Rooms, dispatch: Dispatch) => {
-    let first = 0;
-    const roomList: string[] = [];
-    forEach(rooms.rooms, (room, index) => {
-        first++;
-        roomList.push(index);
-    });
+const handleRoomsObject = (roomList: string[], dispatch: Dispatch) => {
     dispatch(roomsAction(roomList));
     return roomList;
 }
 
 const changeUserRoom: ISocketOnMethodCb<{ room: string }> = (data, { dispatch, username }) => {
-    console.log('username: ', username);
     dispatch(user({
         room: data.room,
         username,
@@ -44,7 +37,7 @@ const socketMiddleware = (socket: SocketIOClient.Socket) => ({ getState, dispatc
         socket,
     });
 
-    socketEventListener<SocketIO.Rooms>({
+    socketEventListener<string[]>({
         cb: (data) => handleRoomsObject(data, dispatch),
         ioEvent: ROOM_LIST,
         socket,
@@ -56,7 +49,7 @@ const socketMiddleware = (socket: SocketIOClient.Socket) => ({ getState, dispatc
         socket,
     });
 
-    return next => action => next(action);
+    return (next) => (action) => next(action);
 };
 
 export default socketMiddleware;

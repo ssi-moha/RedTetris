@@ -13,6 +13,7 @@ interface IVerticalSidebarProps {
 }
 
 const VerticalSidebar = (props: IVerticalSidebarProps) => {
+    console.log(props.rooms)
     return (<Sidebar
             as={Menu}
             animation="overlay"
@@ -26,7 +27,7 @@ const VerticalSidebar = (props: IVerticalSidebarProps) => {
             <Menu.Item onClick={() => props.handleOpenCreateRoomDialog(!props.openCreateRoomDialog)}>
                 <Icon name="plus circle"/> <p>Create a room</p>
             </Menu.Item>
-            {map(props.rooms, (room, index) => <Menu.Item content={room} key={index} onClick={() => props.joinRoom(room)} /> )}
+            {props.rooms.map( (room, index) => <Menu.Item content={room} key={index} onClick={() => props.joinRoom(room)} /> )}
         </Sidebar>
     )
 };

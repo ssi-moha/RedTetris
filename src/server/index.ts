@@ -1,7 +1,7 @@
 import fs from "fs";
 import http, {RequestListener, Server} from "http";
 import socketIO, {Server as SocketIOServer, Socket} from "socket.io";
-import {ServerType} from "../../params";
+import {IServerType} from "../../params";
 import {logerror, loginfo} from "./debug/debug";
 import engine from "./engine/engine";
 
@@ -9,7 +9,7 @@ export interface ISocketIOSocket extends Socket {
     username: string,
 }
 
-const initApp = (app: Server, params: ServerType, cb: () => any) => {
+const initApp = (app: Server, params: IServerType, cb: () => any) => {
     const {host, port} = params;
 
     const handler: RequestListener = (req, res) => {
@@ -39,7 +39,7 @@ const initEngine = (io: SocketIOServer) => {
     });
 };
 
-const create = (params: ServerType) => {
+const create = (params: IServerType) => {
     const promise = new Promise( (resolve) => {
         const app: Server = http.createServer();
         initApp(app, params, () => {

@@ -19,6 +19,7 @@ const DashboardContainer = (props: IDashboardContainerProps & {rooms: State["roo
 
     const joinRoom = (room: string) => {
         emitSocket<{ room: string }>({ socket: props.socket, ioEvent: JOIN_ROOM, data: { room } });
+        console.log('joinRoom: ');
     }
 
     return (

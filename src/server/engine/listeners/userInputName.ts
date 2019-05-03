@@ -5,6 +5,7 @@ import {LOGIN_ATTEMPT, ROOM_LIST} from "../../../sockets/events";
 import { loginfo } from "../../debug/debug";
 import { ISocketIOSocket } from "../../index";
 import { IUserInputNameArgs } from "./ListenerArgsTypes";
+import roomList from "../../roomList";
 
 const findSocketSessionVariables = (sockets: {}, attributeToFind: string): any[] =>
     map(sockets, (elem) => elem[attributeToFind]);
@@ -25,8 +26,9 @@ const userInputNameListener = (input: IUserInputNameArgs, socket: ISocketIOSocke
         };
         socket.username = input.username;
         socket.join(room);
+        roomList.push(input.room);
         socket.emit(LOGIN_ATTEMPT, infoToEmit);
-        ioEngine.emit(ROOM_LIST, {rooms: ioEngine.sockets.adapter.rooms})
+        ioEngine.emit(ROOM_LIST, roomList)
         loginfo(`username ${input.username} successfully joined ${room}`)
     }
 }

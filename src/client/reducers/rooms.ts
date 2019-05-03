@@ -8,7 +8,7 @@ interface IRoomList {
 const rooms = (state: {} | [] = [], action: IRoomList) => {
     switch (action.type) {
         case ROOM_LIST:
-            return { ...action.rooms };
+            return action.rooms;
         default:
             return state;
     }

@@ -60,8 +60,14 @@ const formItems: RoomingFormItem[] = [{
     name: "room",
 }]
 
-const onSubmit = (values: { room: string }, socket: SocketIOClient.Socket, dispatch: Dispatch) => {
+const onSubmit = (
+    values: { room: string },
+    socket: SocketIOClient.Socket,
+    dispatch: Dispatch,
+    handleOpenCreateRoomDialog: React.Dispatch<React.SetStateAction<boolean>>,
+) => {
     emitSocket<{ room: string }>({ socket, ioEvent: CREATE_ROOM, data: { room: values.room }})
+    handleOpenCreateRoomDialog(false);
 }
 
 const Dashboard = (props: IDashboardProps) => {
@@ -95,7 +101,12 @@ const Dashboard = (props: IDashboardProps) => {
                 <Modal.Header>Create a room</Modal.Header>
                 <Modal.Content>
                 <RoomingFormContainer
-                    onSubmit={(values) => onSubmit(values, props.socket, props.dispatch)}
+                    onSubmit={(values) => onSubmit(
+                        values,
+                        props.socket,
+                        props.dispatch,
+                        props.handleOpenCreateRoomDialog,
+                    )}
                     items={formItems}
                     validateButton="Create"
                     cancelButton="Cancel"
