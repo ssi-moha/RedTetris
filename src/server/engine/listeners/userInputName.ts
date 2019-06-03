@@ -26,7 +26,9 @@ const userInputNameListener = (input: IUserInputNameArgs, socket: ISocketIOSocke
         };
         socket.username = input.username;
         socket.join(room);
-        roomList.push(input.room);
+        if (!roomList.includes(input.room)) {
+            roomList.push(input.room);
+        }
         socket.emit(LOGIN_ATTEMPT, infoToEmit);
         ioEngine.emit(ROOM_LIST, roomList)
         loginfo(`username ${input.username} successfully joined ${room}`)

@@ -14,7 +14,9 @@ interface ICreateRoomArgs {
 const createRoom = (input: ICreateRoomArgs, socket: ISocketIOSocket, ioEngine: Server) => {
     loginfo(find(ioEngine.sockets.adapter.rooms, (value, room) => room === input.room));
     joinRoom(input, socket, ioEngine);
-    roomList.push(input.room);
+    if (!roomList.includes(input.room)) {
+        roomList.push(input.room);
+    }
     ioEngine.emit(ROOM_LIST, roomList);
 }
 
