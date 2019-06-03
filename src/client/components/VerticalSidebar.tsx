@@ -13,7 +13,6 @@ interface IVerticalSidebarProps {
 }
 
 const VerticalSidebar = (props: IVerticalSidebarProps) => {
-    console.log(props.rooms)
     return (<Sidebar
             as={Menu}
             animation="overlay"
