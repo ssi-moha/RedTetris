@@ -49,7 +49,7 @@ const socketMiddleware = (socket: SocketIOClient.Socket) => ({ getState, dispatc
         socket,
     });
 
-    return (next) => (action) => next(action);
+    return (next: (arg0: any) => void) => (action: any) => next(action);
 };
 
 export default socketMiddleware;

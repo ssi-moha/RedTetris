@@ -1,12 +1,12 @@
-import { ALERT_POP } from '../actions/alert'
+import { ALERT_POP } from "../actions/alert"
 
-interface AlertAction {
+interface IAlertAction {
     type: string,
     message?: string,
 }
 
-const alert = (state = {} , action: AlertAction) => {
-    switch(action.type){
+const alert = (state = {} , action: IAlertAction) => {
+    switch (action.type){
         case ALERT_POP:
             return { message: action.message }
         default:
